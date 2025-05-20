@@ -7,8 +7,8 @@ WORKDIR /home/node
 # Copy your saved data folder into the expected n8n config path
 COPY n8n-data /home/node/.n8n
 
-# (Optional) Set permissions on config file to avoid warnings
-RUN chmod 600 /home/node/.n8n/config || true
+# Fix ownership and permissions to avoid permission errors
+RUN chown -R node:node /home/node/.n8n && chmod 600 /home/node/.n8n/config || true
 
 # Expose n8n's default port
 EXPOSE 5678
