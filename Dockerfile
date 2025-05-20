@@ -1,14 +1,18 @@
-# Use the official n8n image as the base image
-FROM n8nio/n8n
+# Use the official n8n image which already includes everything
+FROM n8nio/n8n:latest
 
-# Copy your local n8n data (workflows, SQLite DB, etc.)
-COPY n8n-data /home/node/.n8n
-
-# Set working directory to n8n’s expected folder
+# Set working directory inside container
 WORKDIR /home/node
 
-# Expose the default n8n port
+# Copy your saved data folder into the expected n8n config path
+COPY n8n-data /home/node/.n8n
+
+# (Optional) Set permissions on config file to avoid warnings
+RUN chmod 600 /home/node/.n8n/config || true
+
+# Expose n8n's default port
 EXPOSE 5678
 
-# Start n8n
+# Start n8n with tini as the process manager
+ENTRYPOINT ["tini", "--"]
 CMD ["n8n"]
