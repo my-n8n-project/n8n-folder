@@ -1,19 +1,13 @@
-# Use the official n8n Docker image
+# Use the official n8n image as the base image
 FROM n8nio/n8n
 
-# Set working directory
-WORKDIR /home/node
-
-# Copy your local n8n data folder into the n8n container config directory
+# Copy your local n8n data (workflows, SQLite DB, etc.)
 COPY n8n-data /home/node/.n8n
 
-# Set proper permissions for the copied data
-RUN chown -R node:node /home/node/.n8n
+# Set working directory to n8n’s expected folder
+WORKDIR /home/node
 
-# Switch to non-root user
-USER node
-
-# Expose default n8n port
+# Expose the default n8n port
 EXPOSE 5678
 
 # Start n8n
