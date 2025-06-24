@@ -3,6 +3,9 @@ FROM n8nio/n8n:latest
 # Set working directory
 WORKDIR /home/node
 
+# Install required packages globally
+RUN npm install -g jsonwebtoken axios
+
 # Copy local n8n data
 COPY --chown=node:node n8n-data /home/node/.n8n
 
